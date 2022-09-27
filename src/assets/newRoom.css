@@ -1,0 +1,32 @@
+h1{
+    text-align: center;
+}
+
+.newRoomItems{
+    align-items: center;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="textbox"]{
+    width: 225px;
+    height: 30px;
+}
+
+.createButton{
+    background-color: green;
+    color: white;
+    margin-right: 10px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+}
+
+.backButton{
+    background-color: green;
+    color: white;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+}

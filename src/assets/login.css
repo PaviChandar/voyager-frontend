@@ -1,0 +1,42 @@
+.login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* text-align: center; */
+}
+
+.loginName {
+    width: 250px;
+    height: 20px;
+    padding: 10px;
+}
+
+.loginPassword {
+    background-color: white;
+    width: 250px;
+    height: 20px;
+    padding: 10px;
+}
+
+.loginButton {
+    width: 275px;
+    border: none;
+    padding: 10px 15px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.loginButton:disabled {
+    background-color: green;
+    cursor: not-allowed;
+}

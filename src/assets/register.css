@@ -1,0 +1,56 @@
+h1 {
+    color: black;
+}
+
+.register {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    align-items: center;
+}
+
+.registerContainer {
+    background-color: rgba(144, 238, 144, 0.806);;
+    color: black;
+    width: 40%;
+    height: 65%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 20px;
+    position: relative;
+    flex-direction: column;
+    margin: auto;
+}
+
+.registerItem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 2px;
+    position: relative;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+}
+
+.regInput {
+    width: 350px;
+}
+
+.formSubmit {
+    border: none;
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px; 
+    display: grid;
+    position: absolute;
+    bottom: 15%;
+    left: 48%;
+}
