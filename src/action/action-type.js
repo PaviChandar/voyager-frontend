@@ -13,3 +13,8 @@ export const GET_SINGLE_ROOM = "GET_SINGLE_ROOM";
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS"
 export const UPDATE_ROOM = "UPDATE_ROOM";
 export const DELETE_ROOM = "DELETE_ROOM";
+
+export const GET_BOOKINGS = "GET_BOOKINGS"
+
+export const NEW_SEARCH = "NEW_SEARCH"
+export const RESET_SEARCH = "RESET_SEARCH"

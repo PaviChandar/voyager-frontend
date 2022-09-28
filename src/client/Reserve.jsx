@@ -1,0 +1,42 @@
+import React from "react";
+import { Table } from 'antd';
+import { Button, Modal } from 'antd';
+import { useState } from 'react';
+
+const Reserve = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+    return (
+        <div>
+            <h1>Reserve</h1>
+            {/* <Table columns={columns} dataSource={data} /> */}
+            <Button type="primary" onClick={showModal}>
+            Open Modal
+          </Button>
+          <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Modal>
+
+ 
+    )
+        </div>
+    )
+}
+
+export default Reserve
+
+

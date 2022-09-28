@@ -11,10 +11,10 @@ const Login = () => {
         password: undefined,
     })
 
+    const { isAdmin } = useSelector(state => state.user)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
-    let { isAdmin } = useSelector(state => state.user)
 
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -25,30 +25,39 @@ const Login = () => {
     }
 
     useEffect(() => {
-        console.log("call effect", sessionStorage.getItem('role'))
-        if (sessionStorage.getItem('role') !== null) {
-            console.log("call effect in not null ", sessionStorage.getItem('role'))
-            if (sessionStorage.getItem('role') === true) {
-                console.log("", sessionStorage.getItem('role'))
+        console.log("call use efffect")
+        if(sessionStorage.getItem('token')) {
+            console.log("is admin : ", sessionStorage.getItem('role'))
+            console.log(typeof(sessionStorage.getItem('role')))
+            if (sessionStorage.getItem('role') === 'true') {
                 navigate('/admin')
             } else {
-                console.log("not a admin")
                 navigate('/')
-            }
+            } 
         }
-
     })
+
+    // useEffect(() => {
+    //     if(sessionStorage.getItem('role') === null){
+    //         navigate('/login')
+    //     } else if (sessionStorage.getItem('role') === true) {
+    //             navigate('/admin')
+    //         } else {
+    //           navigate('/')
+    //         }
+    //     },[])
 
     const handleClick = async (e) => {
         e.preventDefault()
         console.log("entering")
         dispatch({ type: "LOGIN_START" })
         try {
-            console.log("CREDENTIALS : ", credentials)
             dispatch(loginUser(credentials))
+            
         } catch (err) {
-           console.log("error", err)
+            console.log("error", err)
         }
+
     }
     return (
         <div className="login">
@@ -56,7 +65,7 @@ const Login = () => {
                 <input type="text" placeholder="username" id="username" onChange={handleChange} className="loginName" />
                 <input type="password" placeholder="password" id="password" onChange={handleChange} className="loginPassword" />
                 <button onClick={handleClick} className="loginButton">Login</button>
-                <h3>Not an user? Please click register to login</h3>
+                <h3><b>Not an user? Please click register to login</b></h3>
                 <button onClick={handleRegister} className="loginButton">Register</button>
             </div>
         </div>

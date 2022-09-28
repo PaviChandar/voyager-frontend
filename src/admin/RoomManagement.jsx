@@ -1,4 +1,5 @@
 import React from "react";
+import "../assets/roomManagement.css"
 import { useNavigate } from "react-router";
 import { useState } from 'react';
 import { baseUrl } from '../shared/Constants';
@@ -6,13 +7,15 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteRoom, getAllRooms } from '../action/action';
 import axios from 'axios';
+import { Space, Table, Tag } from 'antd';
 
 
 const RoomManagement = () => {
     const navigate = useNavigate(false)
     const [success, setSuccess] = useState()
     const [room, setRoom] = useState([])
-   const dispatch = useDispatch()
+    const dispatch = useDispatch()
+    const [dataSour, setdataSour] = useState([])
 
     const handleCreate = () => {
         navigate('/admin/room/create')
@@ -22,7 +25,7 @@ const RoomManagement = () => {
         console.log("in delete")
         // dispatch(deleteRoom(id, hotelId))
         try {
-            console.log("room:hotel: " , id,hotelId)
+            console.log("room:hotel: ", id, hotelId)
             await axios
                 .delete(`${baseUrl}/room/${id}/${hotelId}`)
                 .then(() => {
@@ -37,50 +40,75 @@ const RoomManagement = () => {
     useEffect(() => {
         // dispatch(getAllRooms())
         axios
-        .get(`${baseUrl}/room/`)
-        .then((data) => {
-            setRoom(() => (data.data))
-            console.log("DATA : ", data)
-        })
-    },[])
+            .get(`${baseUrl}/room/`)
+            .then((data) => {
+                setRoom(() => (data.data))
+                console.log("DATA : ", data)
+            })
+    }, [])
 
     useEffect(() => {
-        if (success) { 
+        if (success) {
             alert("Room deleted successfully")
             navigate('/admin')
         }
     }, [success])
 
+    useEffect(() => {
+        const dataSource = room.map((data) => {
+            return ({
+                "Room_ID": data._id,
+                "Type": data.title,
+                "Minimum Price": data.price,
+                "Maximum People": data.maxPeople
+            })
+        })
+        setdataSour(dataSource)
+
+        console.log("source data", dataSource)
+    }, [room])
+
+    const column = [
+        // {
+        //     title: 'Room ID',
+        //     dataIndex: 'Room ID',
+        //     key: 'Room ID',
+        // },
+        {
+            title: 'Type',
+            dataIndex: 'Type',
+            key: 'Type',
+        },
+        {
+            title: 'Minimum Price',
+            dataIndex: 'Minimum Price',
+            key: 'Minimum Price',
+        },
+        {
+            title: 'Maximum People',
+            dataIndex: 'Maximum People',
+            key: 'Maximum People',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, data) => (
+                <Space size="middle">
+                    <button className="action" onClick={() => navigate(`/admin/room/update/${data.Room_ID}`)}>Update</button>
+                    <button onClick={(data) => deleteHandler(data._id, data._hotelId)} className="action">Delete</button>
+                </Space>
+            )
+        },
+    ]
+
     return (
         <div>
             <h1>Available Rooms</h1>
-            <button onClick={handleCreate}>Create New room</button>
-                <table  className="table">
-                    <th>
-                        <tr>
-                            <td><b>Room ID</b></td>
-                            <td><b>Type</b></td>
-                            <td><b>Minimum Price</b></td>
-                            <td><b>Maximum people</b></td>
-                        </tr>
-                    </th>
-                    <tbody>
-                        {room.length && room.map(e => {
-                            return (
-                                <tr key={e.id}>
-                                    <td>{e._id}</td>
-                                    <td>{e.title}</td>
-                                    <td>{e.price}</td>
-                                    <td>{e.maxPeople}</td>
-                                    <button className="roomDelete" 
-                                    onClick={() => deleteHandler(e._id, e._hotelId)}
-                                    >Delete</button>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-
+            {
+                column ? dataSour && <Table columns={column} dataSource={dataSour} /> : false
+            }
+            <button onClick={handleCreate} className="buttonHotel">Create New room</button>
+            <button onClick={() => navigate('/admin')} className="backButton">Go Back</button>
         </div>
     )
 }

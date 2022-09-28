@@ -9,8 +9,8 @@ h1{
     flex-direction: column;
 }
 
-input[type="textbox"]{
-    width: 225px;
+input[type="textarea"]{
+    width: 230px;
     height: 30px;
 }
 

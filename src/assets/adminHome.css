@@ -1,0 +1,18 @@
+@import '~antd/dist/antd.css';
+
+.home{
+    display: flex;
+}
+
+.homeItems{
+    flex: 6;
+}
+
+.navbar{
+    text-align: center;
+}
+
+.bookings{
+    padding: 20px;
+    margin: 20px black;  
+}

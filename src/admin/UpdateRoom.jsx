@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
-import "../assets/newRoom.css"
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import { getAllHotels, registerRoom } from "../action/action";
-import { baseUrl } from "../shared/Constants";
-import axios from "axios";
+import React from "react";
+import "../assets/updateRoom.css"
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import { getSingleRoom, registerRoom, updateRoom } from "../action/action";
 
-const NewRoom = () => {
+const UpdateRoom = () => {
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [hotels, setHotel] = useState([])
     const [hotelId, setHotelId] = useState(undefined);
     const [rooms, setRooms] = useState([]);
-    const [success, setSuccess] = useState(false)
     const [credentials, setCredentials] = useState({
         title: '',
         price: '',
@@ -23,46 +21,36 @@ const NewRoom = () => {
 
     })
 
+    let { id } = useParams()
+    console.log("id : ", id)
+
+    const { room } = useSelector(state => state.room)
+
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    const handleCreate = async (e) => {
-        e.preventDefault();
-        const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
-        console.log("room numbers : ", roomNumbers)
-
-        try {
-            await axios
-                .post(`${baseUrl}/room/${hotelId}`, { ...credentials, roomNumbers })
-                .then(() => {
-                    setSuccess(true)
-                })
-        } catch (err) {
-            console.log(err);
-        }
-
-        dispatch(registerRoom(hotelId, credentials))
-        // console.log("CREATE ROOM : ", credentials, hotelId)
-        // setSuccess(true)
-    }
+    useEffect(() => {
+        dispatch(getSingleRoom(id))
+    }, [])
 
     useEffect(() => {
-        axios
-        .get(`${baseUrl}/hotels/`)
-        .then((data) => {
-            setHotel(() => (data.data))
-            // console.log("data : ", data)
-        })
-        if (success) {
-            alert("Room created successfully")
-            navigate('/admin')
+        if(room) {
+            setCredentials({...room})
         }
-    },[])
+    },[room])
+
+    const handleUpdate = () => {
+        console.log("in update", credentials)
+        dispatch(updateRoom(id, credentials))
+        alert("Room updated successfully!")
+        navigate('/admin/room')
+
+    }
 
     return (
-        <div className="newRoomContainer">
-            <h1>Create New Room</h1>
+        <div>
+            <h1>Update Room</h1>
             <div className="newRoomItems">
                 <input type="text" name="title" value={credentials.title} onChange={(e) => handleChange(e)} placeholder="title" />
                 <input type="number" name="price" value={credentials.price} onChange={(e) => handleChange(e)} min="0" placeholder="price" />
@@ -79,12 +67,12 @@ const NewRoom = () => {
                         ))}
                 </select>
                 <div className="button">
-                    <button onClick={(e) => handleCreate(e)} className="createButton">Create Room</button>
-                    <button className="backButton" onClick={() => navigate('/admin/room')}>Go Back</button>
+                    <button className="update" onClick={handleUpdate} >Update</button>
+                    <button className="backButton" onClick={() => navigate(-1)} >Go Back</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default NewRoom
+export default UpdateRoom

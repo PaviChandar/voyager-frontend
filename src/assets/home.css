@@ -1,4 +1,4 @@
-h1 {
+h1,h2 {
     text-align: center;
 }
 
@@ -14,11 +14,6 @@ h1 {
     top: 20px;
     right: 15px;
     cursor: pointer;
-}
-
-.headerContainer {
-    display: flex;
-    gap: 20px;
 }
 
 .homeRegister{
@@ -43,9 +38,4 @@ h1 {
     padding: 8px 12px;
     border: none;
     cursor: pointer;
-}
-
-.search {
-    width: 120px;
-    height: 45px;
 }

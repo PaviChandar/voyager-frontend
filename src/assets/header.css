@@ -1,0 +1,32 @@
+@import '~antd/dist/antd.css';
+
+
+.header{
+display: flex;
+flex-direction: column;
+}
+
+.headerContainer {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-left: 650px;
+}
+
+input[type="text"] {
+    height: 25px;
+}
+
+.search {
+    width: 120px;
+    height: 45px;
+}
+
+.headerButton{
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

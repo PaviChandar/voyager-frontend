@@ -9,24 +9,21 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* text-align: center; */
+    align-items: center;
 }
 
-.loginName {
+input[type="text"]{
     width: 250px;
-    height: 20px;
-    padding: 10px;
+    height: 50px;
 }
 
-.loginPassword {
-    background-color: white;
+input[type="password"]{
     width: 250px;
-    height: 20px;
-    padding: 10px;
+    height: 50px;
 }
 
 .loginButton {
-    width: 275px;
+    width: 180px;
     border: none;
     padding: 10px 15px;
     background-color: green;

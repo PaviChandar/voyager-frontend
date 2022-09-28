@@ -24,6 +24,12 @@ const hotelReducer = (state = initialState, action) => {
                 ...state,
                 loading:true
             }
+        case types.GET_SINGLE_HOTEL:
+            return{
+                ...state,
+                hotel: action.payload,
+                loading: false
+            }
         default:
             return state
     }

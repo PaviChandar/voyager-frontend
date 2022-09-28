@@ -19,9 +19,8 @@ h1{
     align-items: center;
 }
 
-.profileInput{
-    padding: 10px 20px;
-    border-radius: 3px;
+input[type="password"]{
+    padding: 10px 25px;
 }
 
 .profileButton{

@@ -9,9 +9,6 @@ const Profile = () => {
     return (
         <div>
             <h1>User Profile Update</h1>
-            <h3>User name : {user.username}</h3>
-            <h3>email : {user.email}</h3>
-            <h3>phone : {user.phone}</h3>
             <div className="profileContainer">
                 <div className="profileItems">
                     <input type="text" placeholder="username" className="profileInput" />

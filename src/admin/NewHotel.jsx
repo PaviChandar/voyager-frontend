@@ -22,10 +22,6 @@ const NewHotel = () => {
         featured: false,
     })
 
-    // const handleHotel = () => {
-    //     navigate('/admin')
-    // }
-
     const handleChange = (e) => {
         setCredentials((prev) => ({...prev, [e.target.name]: e.target.value}))
     }
@@ -69,10 +65,8 @@ const NewHotel = () => {
                     <option value={false}>No</option>
                     <option value={true}>Yes</option>
                 </select>
-                <button onClick={(e) => createHandler(e)}>Create</button>
-                <button className="newHotelButton" 
-                // onClick={handleHotel}
-                >Go Back</button>
+                <button onClick={(e) => createHandler(e)}  className="newHotelButton">Create</button>
+                <button className="newHotelButton">Go Back</button>
             </div>
         </div>
     )

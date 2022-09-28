@@ -14,15 +14,27 @@ const roomReducer = (state = initialState, action) => {
                 loading: false
             }
         case types.UPDATE_ROOM:
-            return{
+            return {
                 ...state,
                 room: action.payload,
                 loading: false
             }
         case types.DELETE_ROOM:
-            return{
+            return {
                 ...state,
-                loading:true
+                loading: true
+            }
+        case types.GET_SINGLE_ROOM:
+            return {
+                ...state,
+                room: action.payload,
+                loading: false
+            }
+        case types.GET_ALL_ROOMS:
+            return {
+                ...state,
+                rooms: action.payload,
+                loading: false
             }
         default:
             return state
