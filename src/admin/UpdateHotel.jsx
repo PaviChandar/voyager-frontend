@@ -2,7 +2,7 @@ import React from "react";
 import "../assets/updateHotel.css"
 import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
-import { getSingleHotel, registerHotel, updateHotel } from "../action/action";
+import { getSingleHotel, updateHotel } from "../action/action";
 import { useDispatch, useSelector } from "react-redux";
 
 const UpdateHotel = () => {

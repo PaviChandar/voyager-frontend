@@ -16,8 +16,6 @@ const isAdmin = (isAdmin) => ({
     payload: isAdmin
 })
 
-// isLogin - flag=true
-
 const addHotel = (hotelDetail) => ({
     type: types.ADD_HOTEL,
     payload: hotelDetail
@@ -50,7 +48,6 @@ const removeRoom = (id, hotelId) => ({
 
 const upgradeHotel = (id) => ({
     type: types.UPDATE_HOTEL,
-    // payload: id
 })
 
 const upgradeRoom = (id) => ({
@@ -73,7 +70,6 @@ export const registerUser = (user) => {
         axios
             .post(`${baseUrl}/auth/register`, user)
             .then((res) => {
-                console.log(res)
                 dispatch(userRegistered)
                 alert('User registered successfully')
             })
@@ -89,7 +85,6 @@ export const loginUser = (user) => {
         axios
             .post(`${baseUrl}/auth/login`, user)
             .then((res) => {
-                console.log("response : ", res.data)
                 dispatch(userLoggedIn(res.data.details))
                 sessionStorage.setItem('token', res.data.token)
                 sessionStorage.setItem('role', res.data.isAdmin)
@@ -107,7 +102,6 @@ export const registerHotel = (hotel) => {
         axios
             .post(`${baseUrl}/hotels`, hotel)
             .then((res) => {
-                console.log("response hotel : ", res.data)
                 dispatch(addHotel())
                 alert("Hotel created successfully!")
             })
@@ -202,7 +196,6 @@ export const updateRoom = (id, room) => {
         axios
             .put(`${baseUrl}/room/${id}`, room)
             .then((res) => {
-                console.log("updated room : ", res)
                 dispatch(upgradeRoom())
             })
             .catch((err) => {

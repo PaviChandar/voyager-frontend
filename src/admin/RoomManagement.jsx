@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { baseUrl } from '../shared/utils/Constants';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteRoom, getAllRooms } from '../action/action';
+import { deleteRoom } from '../action/action';
 import axios from 'axios';
-import { Space, Table, Tag } from 'antd';
+import { Space, Table } from 'antd';
 
 
 const RoomManagement = () => {
@@ -22,7 +22,7 @@ const RoomManagement = () => {
     }
 
     const deleteHandler = async (id, hotelId) => {
-        dispatch(deleteRoom(id,hotelId))
+        dispatch(deleteRoom(id, hotelId))
     }
     useEffect(() => {
         axios
@@ -74,7 +74,7 @@ const RoomManagement = () => {
             render: (_, data) => (
                 <Space size="middle">
                     <button className="action" onClick={() => navigate(`/admin/room/update/${data.Room_ID}`)}>Update</button>
-                    <button onClick={() => deleteHandler(data.Room_ID,data.hotelId)} className="action">Delete</button>
+                    <button onClick={() => deleteHandler(data.Room_ID, data.hotelId)} className="action">Delete</button>
                 </Space>
             )
         },

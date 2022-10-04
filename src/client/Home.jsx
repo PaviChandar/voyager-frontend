@@ -39,7 +39,6 @@ const Home = () => {
         <div className='homeContainer'>
             <h1>VOYAGER</h1>
             <h2>Bon Voyage!</h2>
-            <UserOutlined className="profile" onClick={handleProfile} />
             {isLoggedIn ?
                 <>
                     <button className='homeLogin' onClick={handleLogout}>Logout</button>

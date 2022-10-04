@@ -30,3 +30,28 @@ input[type="text"] {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.reserveItem {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 20px;
+}
+
+.itemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.selectRooms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 10px;
+    color: gray;
+}
+
+.room {
+    display: flex;
+    flex-direction: column;
+}

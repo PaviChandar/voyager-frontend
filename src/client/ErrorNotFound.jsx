@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 
 const ErrorNotFound = () => {
-const navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (
         <div>

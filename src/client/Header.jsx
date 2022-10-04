@@ -3,27 +3,23 @@ import "../assets/header.css"
 import { DatePicker, Space, Table, Tooltip } from 'antd';
 import { AppstoreFilled } from "@ant-design/icons";
 import { useState } from "react";
-import { useParams } from "react-router";
 import axios from "axios";
 import { baseUrl } from "../shared/utils/Constants";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 import { Button, Modal } from 'antd';
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import jwtDecode from 'jwt-decode'
-import { getSingleHotel } from "../action/action";
 const moment = require('moment')
 const { RangePicker } = DatePicker;
 
 const Header = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const [selectedRooms, setSelectedRooms] = useState([])
     const [destination, setDestination] = useState("")
-    const [open, setOpen] = useState(false)
     const [data, setData] = useState([])
     const [header, setHeader] = useState([])
     const [roomList, setRoomList] = useState([])
+    const [hotelId, setHotelId] = useState("")
     const [oldDates, setOldDates] = useState([
         {
             startDate: new Date(),
@@ -31,8 +27,6 @@ const Header = () => {
             key: 'selection'
         }
     ])
-    const [hotelId, setHotelId] = useState("")
-    const [hotelRoom, setHotelRoom] = useState()
 
     if (sessionStorage.getItem('token')) {
         var token = jwtDecode(sessionStorage.getItem('token'))
@@ -127,7 +121,6 @@ const Header = () => {
         await Promise.all(selectedRooms.map(roomId => {
             const res = axios.put(`${baseUrl}/room/availability/${roomId}`, { dates: alldates },)
                 .then((res) => {
-                    console.log("res", res)
                     return res.data
                 })
                 .catch(err => {
@@ -146,6 +139,7 @@ const Header = () => {
         const hotelData = await axios
             .get(`${baseUrl}/hotels/room/${data}`)
             .then((res) => {
+                console.log("response : ", res.data)
                 setRoomList(res.data)
             })
             .catch((err) => {

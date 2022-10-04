@@ -9,12 +9,10 @@ function ValidateSession() {
     const ValidateSession = () => {
         let url = window.location.href;
 
-        //free routes
         if (url.indexOf('login') > -1 || url.indexOf('registration') > -1 ) {   
             return true;
         }
 
-         //Check if login
         if (sessionStorage.getItem("token"))
             return true;
         else {

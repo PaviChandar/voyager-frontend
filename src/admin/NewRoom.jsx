@@ -3,7 +3,7 @@ import "../assets/newRoom.css"
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { getAllHotels, registerRoom } from "../action/action";
+import { registerRoom } from "../action/action";
 import { baseUrl } from "../shared/utils/Constants";
 import axios from "axios";
 
@@ -33,6 +33,7 @@ const NewRoom = () => {
     const handleCreate = (e) => {
         e.preventDefault();
         setError(() => validate(credentials))
+        setSubmit(true)
         const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
         if (Object.keys(error).length === 0 && submit) {
             dispatch(registerRoom(hotelId, { ...credentials, roomNumbers }))

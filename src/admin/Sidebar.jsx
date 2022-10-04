@@ -5,7 +5,6 @@ import { CreditCardOutlined } from "@ant-design/icons";
 import { AppstoreOutlined } from "@ant-design/icons";
 import { FullscreenExitOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import Bookings from "./Bookings";
 
 const Sidebar = () => {
 
@@ -32,26 +31,25 @@ const Sidebar = () => {
           <p className="title">LISTS</p>
           <Link to="/admin/hotel" style={{ textDecoration: "none" }}>
             <li>
-            <CreditCardOutlined  className="icon" />
+              <CreditCardOutlined className="icon" />
               <span>Hotels</span>
             </li>
           </Link>
           <Link to="/admin/room" style={{ textDecoration: "none" }}>
             <li>
-            <AppstoreOutlined   className="icon" />
+              <AppstoreOutlined className="icon" />
               <span>Rooms</span>
             </li>
           </Link>
 
           <Link to="/login" style={{ textDecoration: "none" }}>
             <li>
-            <FullscreenExitOutlined   className="icon" />
+              <FullscreenExitOutlined className="icon" />
               <div onClick={(e) => handleLogout(e)} >Logout</div>
             </li>
           </Link>
         </ul>
       </div>
-      {/* <Bookings /> */}
     </div>
   );
 };
