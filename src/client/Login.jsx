@@ -11,8 +11,6 @@ const Login = () => {
         password: undefined,
     })
 
-    const { isAdmin } = useSelector(state => state.user)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -25,10 +23,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        console.log("call use efffect")
         if(sessionStorage.getItem('token')) {
-            console.log("is admin : ", sessionStorage.getItem('role'))
-            console.log(typeof(sessionStorage.getItem('role')))
             if (sessionStorage.getItem('role') === 'true') {
                 navigate('/admin')
             } else {
@@ -37,19 +32,8 @@ const Login = () => {
         }
     })
 
-    // useEffect(() => {
-    //     if(sessionStorage.getItem('role') === null){
-    //         navigate('/login')
-    //     } else if (sessionStorage.getItem('role') === true) {
-    //             navigate('/admin')
-    //         } else {
-    //           navigate('/')
-    //         }
-    //     },[])
-
     const handleClick = async (e) => {
         e.preventDefault()
-        console.log("entering")
         dispatch({ type: "LOGIN_START" })
         try {
             dispatch(loginUser(credentials))

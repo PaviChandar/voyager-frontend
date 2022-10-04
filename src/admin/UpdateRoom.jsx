@@ -22,8 +22,6 @@ const UpdateRoom = () => {
     })
 
     let { id } = useParams()
-    console.log("id : ", id)
-
     const { room } = useSelector(state => state.room)
 
     const handleChange = (e) => {
@@ -41,7 +39,6 @@ const UpdateRoom = () => {
     },[room])
 
     const handleUpdate = () => {
-        console.log("in update", credentials)
         dispatch(updateRoom(id, credentials))
         alert("Room updated successfully!")
         navigate('/admin/room')
@@ -57,9 +54,9 @@ const UpdateRoom = () => {
                 <input type="text" name="maxPeople" value={credentials.maxPeople} onChange={(e) => handleChange(e)} placeholder="maximum people" />
                 <input type="text" name="desc" value={credentials.description} onChange={(e) => handleChange(e)} placeholder="description" />
                 <label>Rooms</label>
-                <input type="textarea" name="roomNumbers" onChange={(e) => setRooms(e.target.value)} placeholder="enter room numbers" />
+                <input type="textarea" name="roomNumbers" onChange={(e) => setRooms(e.target.value)} disabled placeholder="enter room numbers" />
                 <label>Choose a hotel</label>
-                <select id="hotelId"
+                <select id="hotelId" disabled
                     onChange={(e) => setHotelId(e.target.value)}>
                     {hotels &&
                         hotels.map((hotel) => (

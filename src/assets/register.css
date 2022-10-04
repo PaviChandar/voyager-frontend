@@ -12,8 +12,8 @@ h1 {
 .registerContainer {
     background-color: rgba(144, 238, 144, 0.806);;
     color: black;
-    width: 40%;
-    height: 65%;
+    width: 35%;
+    height: auto;
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -37,8 +37,9 @@ h1 {
     color: red;
 }
 
-.regInput {
-    width: 350px;
+input[type="tel"]{
+width: 250px;
+height: 50px;
 }
 
 .formSubmit {
@@ -51,6 +52,6 @@ h1 {
     border-radius: 5px; 
     display: grid;
     position: absolute;
-    bottom: 15%;
+    bottom: 5%;
     left: 48%;
 }

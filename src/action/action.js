@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as types from './action-type'
-import { baseUrl } from "../shared/Constants";
+import { baseUrl } from "../shared/utils/Constants";
 
 const userRegistered = () => ({
     type: types.REGISTER_USER
@@ -103,7 +103,6 @@ export const loginUser = (user) => {
 
 //Register hotel
 export const registerHotel = (hotel) => {
-    console.log("hotel : ", hotel);
     return function (dispatch) {
         axios
             .post(`${baseUrl}/hotels`, hotel)
@@ -120,12 +119,10 @@ export const registerHotel = (hotel) => {
 
 //Register room
 export const registerRoom = (id, room) => {
-    console.log("room : ", room);
     return function (dispatch) {
         axios
             .post(`${baseUrl}/room/${id}`, room)
             .then((res) => {
-                console.log("response room : ", res.room)
                 dispatch(addRoom())
                 alert("Room created successfully!")
             })
@@ -140,7 +137,6 @@ export const getAllHotels = (allHotels) => {
         axios
             .get(`${baseUrl}/hotels/`, allHotels)
             .then((res) => {
-                // console.log("All Hotels: ", allHotels)
                 dispatch(addHotels())
             })
             .catch((err) => {
@@ -154,7 +150,6 @@ export const getAllRooms = (allRooms) => {
         axios
             .get(`${baseUrl}/room`, allRooms)
             .then((res) => {
-                console.log("All Rooms: ", allRooms)
                 dispatch(addRooms())
             })
             .catch((err) => {
@@ -168,7 +163,6 @@ export const deleteHotel = (id) => {
         axios
             .delete(`${baseUrl}/hotels/${id}`)
             .then((res) => {
-                console.log("deleted hotel", id)
                 dispatch(removeHotel())
             })
             .catch((err) => {
@@ -180,9 +174,8 @@ export const deleteHotel = (id) => {
 export const deleteRoom = (id, hotelId) => {
     return function (dispatch) {
         axios
-            .delete(`${baseUrl}/${id}/${hotelId}`)
+            .delete(`${baseUrl}/room/${id}/${hotelId}`)
             .then((res) => {
-                console.log("deleted room : ", id, hotelId)
                 dispatch(removeRoom())
             })
             .catch((err) => {
@@ -196,7 +189,6 @@ export const updateHotel = (id, hotel) => {
         axios
             .put(`${baseUrl}/hotels/${id}`, hotel)
             .then((res) => {
-                console.log("updated hotel : ", res)
                 dispatch(upgradeHotel())
             })
             .catch((err) => {
@@ -244,5 +236,3 @@ export const getSingleHotel = (id) => {
             })
     }
 }
-
-// export const getAllHotelRoom = ()

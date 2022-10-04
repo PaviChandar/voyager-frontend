@@ -2,7 +2,7 @@ import React from "react";
 import "../assets/roomManagement.css"
 import { useNavigate } from "react-router";
 import { useState } from 'react';
-import { baseUrl } from '../shared/Constants';
+import { baseUrl } from '../shared/utils/Constants';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteRoom, getAllRooms } from '../action/action';
@@ -22,28 +22,13 @@ const RoomManagement = () => {
     }
 
     const deleteHandler = async (id, hotelId) => {
-        console.log("in delete")
-        // dispatch(deleteRoom(id, hotelId))
-        try {
-            console.log("room:hotel: ", id, hotelId)
-            await axios
-                .delete(`${baseUrl}/room/${id}/${hotelId}`)
-                .then(() => {
-                    setSuccess(true)
-                })
-        } catch (err) {
-            console.log("error", err)
-        }
+        dispatch(deleteRoom(id,hotelId))
     }
-    // dispatch(getAllRooms())
-
     useEffect(() => {
-        // dispatch(getAllRooms())
         axios
             .get(`${baseUrl}/room/`)
             .then((data) => {
                 setRoom(() => (data.data))
-                console.log("DATA : ", data)
             })
     }, [])
 
@@ -65,15 +50,9 @@ const RoomManagement = () => {
         })
         setdataSour(dataSource)
 
-        console.log("source data", dataSource)
     }, [room])
 
     const column = [
-        // {
-        //     title: 'Room ID',
-        //     dataIndex: 'Room ID',
-        //     key: 'Room ID',
-        // },
         {
             title: 'Type',
             dataIndex: 'Type',
@@ -95,7 +74,7 @@ const RoomManagement = () => {
             render: (_, data) => (
                 <Space size="middle">
                     <button className="action" onClick={() => navigate(`/admin/room/update/${data.Room_ID}`)}>Update</button>
-                    <button onClick={(data) => deleteHandler(data._id, data._hotelId)} className="action">Delete</button>
+                    <button onClick={() => deleteHandler(data.Room_ID,data.hotelId)} className="action">Delete</button>
                 </Space>
             )
         },

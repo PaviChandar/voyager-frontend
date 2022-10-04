@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { Table } from "antd";
 import axios from "axios";
 import { useState } from "react";
-import { baseUrl } from "../shared/Constants";
+import { baseUrl } from "../shared/utils/Constants";
 
 const Bookings = () => {
     const [bookings, setBookings] = useState([])
@@ -14,7 +14,6 @@ const Bookings = () => {
             get(`${baseUrl}/room/reserve/bookings`)
             .then((data) => {
                 setBookings(() => (data.data))
-                console.log("BOOKINGS : ", data)
             })
     }, [])
 
@@ -27,8 +26,6 @@ const Bookings = () => {
             })
         })
         setBookSource(dataSource)
-
-        console.log("source data", dataSource)
     }, [bookings])
 
 

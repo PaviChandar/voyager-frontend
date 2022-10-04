@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { getAllHotels, registerRoom } from "../action/action";
-import { baseUrl } from "../shared/Constants";
+import { baseUrl } from "../shared/utils/Constants";
 import axios from "axios";
 
 const NewRoom = () => {
@@ -13,7 +13,9 @@ const NewRoom = () => {
     const [hotels, setHotel] = useState([])
     const [hotelId, setHotelId] = useState(undefined);
     const [rooms, setRooms] = useState([]);
+    const [error, setError] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [submit, setSubmit] = useState(false)
     const [credentials, setCredentials] = useState({
         title: '',
         price: '',
@@ -25,51 +27,72 @@ const NewRoom = () => {
 
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+        setError(() => validate(credentials))
     }
 
-    const handleCreate = async (e) => {
+    const handleCreate = (e) => {
         e.preventDefault();
+        setError(() => validate(credentials))
         const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
-        console.log("room numbers : ", roomNumbers)
-
-        try {
-            await axios
-                .post(`${baseUrl}/room/${hotelId}`, { ...credentials, roomNumbers })
-                .then(() => {
-                    setSuccess(true)
-                })
-        } catch (err) {
-            console.log(err);
+        if (Object.keys(error).length === 0 && submit) {
+            dispatch(registerRoom(hotelId, { ...credentials, roomNumbers }))
+            setSuccess(true)
         }
-
-        dispatch(registerRoom(hotelId, credentials))
-        // console.log("CREATE ROOM : ", credentials, hotelId)
-        // setSuccess(true)
     }
 
     useEffect(() => {
         axios
-        .get(`${baseUrl}/hotels/`)
-        .then((data) => {
-            setHotel(() => (data.data))
-            // console.log("data : ", data)
-        })
+            .get(`${baseUrl}/hotels/`)
+            .then((data) => {
+                setHotel(() => (data.data))
+            })
         if (success) {
             alert("Room created successfully")
             navigate('/admin')
         }
-    },[])
+    }, [])
+
+    const validate = (value) => {
+        const errors = {}
+
+        if (!value.title) {
+            errors.title = "*Room title is required"
+        }
+        if (!value.price) {
+            errors.price = "*Room price is required"
+        }
+        if (!value.maxPeople) {
+            errors.maxPeople = "*Maximum people is required"
+        }
+        if (!value.roomNumbers) {
+            errors.roomNumbers = "*Room numbers are required"
+        }
+
+        return errors
+    }
 
     return (
         <div className="newRoomContainer">
             <h1>Create New Room</h1>
             <div className="newRoomItems">
-                <input type="text" name="title" value={credentials.title} onChange={(e) => handleChange(e)} placeholder="title" />
-                <input type="number" name="price" value={credentials.price} onChange={(e) => handleChange(e)} min="0" placeholder="price" />
-                <input type="text" name="maxPeople" value={credentials.maxPeople} onChange={(e) => handleChange(e)} placeholder="maximum people" />
+                <div>
+                    <input type="text" name="title" value={credentials.title} onChange={(e) => handleChange(e)} placeholder="title" />
+                    <span className="error">{error.title}</span>
+                </div>
+                <div>
+                    <input type="number" name="price" value={credentials.price} onChange={(e) => handleChange(e)} min="0" placeholder="price" />
+                    <span className="error">{error.price}</span>
+                </div>
+                <div>
+                    <input type="text" name="maxPeople" value={credentials.maxPeople} onChange={(e) => handleChange(e)} placeholder="maximum people" />
+                    <span className="error">{error.maxPeople}</span>
+                </div>
                 <input type="text" name="desc" value={credentials.description} onChange={(e) => handleChange(e)} placeholder="description" />
                 <label>Rooms</label>
-                <input type="textarea" name="roomNumbers" onChange={(e) => setRooms(e.target.value)} placeholder="enter room numbers" />
+                <div>
+                    <input type="textarea" name="roomNumbers" onChange={(e) => setRooms(e.target.value)} placeholder="enter room numbers" />
+                    <span className="error">{error.roomNumbers}</span>
+                </div>
                 <label>Choose a hotel</label>
                 <select id="hotelId"
                     onChange={(e) => setHotelId(e.target.value)}>

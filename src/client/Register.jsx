@@ -32,12 +32,12 @@ const Register = () => {
     const handleSubmit = (e) => {
 
         e.preventDefault()
-
         setFormError(() => (validate(credentials)))
-        console.log("USER : ", credentials)
-        dispatch(registerUser(credentials))
-        setSuccess(true)
-        // navigate('/login')
+        setIsSubmit(true)
+        if (Object.keys(formError).length === 0 && isSubmit) {
+            dispatch(registerUser(credentials))
+            setSuccess(true)
+        }
     }
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const Register = () => {
 
     return (
         <div className="register">
-            <h1>Register</h1>
+            <h1>Register New User</h1>
             <div className="registerContainer">
                 <form className="form">
                     <div className="registerItems">

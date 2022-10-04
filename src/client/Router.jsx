@@ -20,23 +20,6 @@ const Router = () => {
     const navigate = useNavigate()
     const { user } = useSelector(state => state.user)
 
-    // if(!user){
-    //     navigate('/login')
-    // }
-
-    // useEffect(() => {
-    //     if (sessionStorage.getItem('role') === true) {
-    //         navigate('/admin')
-    //     } else {
-    //         navigate('/')
-    //     }
-    // }, [])
-
-    // useEffect
-    // setrole , check redux state, islogin=true
-    // 404 - button - go to home - role based re-direct dashboard
-    // no user-then, login 
-
     ValidateSession()
     return (
         <div>
@@ -44,7 +27,6 @@ const Router = () => {
                 <Route path='/login' element={<Login />} />
                 <Route path='/registration' element={<Register />} />
                 <Route path='/' element={<Home />} />
-                <Route path='/reserve' element={<Reserve />} />
                 <Route path='/profile' element={<Profile />} />
 
                 <Route path='/admin' element={<AdminHome />} />

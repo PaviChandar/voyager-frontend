@@ -14,7 +14,8 @@ function ValidateSession() {
             return true;
         }
 
-        if (sessionStorage.getItem("token")) //Check if login
+         //Check if login
+        if (sessionStorage.getItem("token"))
             return true;
         else {
             return false;

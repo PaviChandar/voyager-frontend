@@ -3,7 +3,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { DatePicker, Space } from 'antd';
 import React, { useState } from 'react';
 import '../assets/home.css'
-import Navbar from './Navbar';
 import { useEffect } from 'react';
 import Header from './Header';
 const { RangePicker } = DatePicker;
@@ -40,7 +39,6 @@ const Home = () => {
         <div className='homeContainer'>
             <h1>VOYAGER</h1>
             <h2>Bon Voyage!</h2>
-            <Navbar />
             <UserOutlined className="profile" onClick={handleProfile} />
             {isLoggedIn ?
                 <>

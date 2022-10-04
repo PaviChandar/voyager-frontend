@@ -46,7 +46,6 @@ const Sidebar = () => {
           <Link to="/login" style={{ textDecoration: "none" }}>
             <li>
             <FullscreenExitOutlined   className="icon" />
-              {/* <span onClick={(e) => handleLogout(e)} >Logout</span> */}
               <div onClick={(e) => handleLogout(e)} >Logout</div>
             </li>
           </Link>

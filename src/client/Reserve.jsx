@@ -18,23 +18,22 @@ const Reserve = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-    return (
-        <div>
-            <h1>Reserve</h1>
-            {/* <Table columns={columns} dataSource={data} /> */}
-            <Button type="primary" onClick={showModal}>
-            Open Modal
-          </Button>
-          <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </Modal>
+  return (
+    <div>
+      <h1>Reserve</h1>
+      <Button type="primary" onClick={showModal}>
+        Open Modal
+      </Button>
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
 
- 
-    )
-        </div>
-    )
+
+      )
+    </div>
+  )
 }
 
 export default Reserve

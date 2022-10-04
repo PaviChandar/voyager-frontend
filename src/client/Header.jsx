@@ -1,19 +1,19 @@
 import React from "react";
 import "../assets/header.css"
-import { DatePicker, Space, Table } from 'antd';
+import { DatePicker, Space, Table, Tooltip } from 'antd';
+import { AppstoreFilled } from "@ant-design/icons";
 import { useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { baseUrl } from "../shared/Constants";
+import { baseUrl } from "../shared/utils/Constants";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { Button, Modal } from 'antd';
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import jwtDecode from 'jwt-decode'
+import { getSingleHotel } from "../action/action";
 const moment = require('moment')
 const { RangePicker } = DatePicker;
-
-
 
 const Header = () => {
     const navigate = useNavigate()
@@ -23,19 +23,21 @@ const Header = () => {
     const [open, setOpen] = useState(false)
     const [data, setData] = useState([])
     const [header, setHeader] = useState([])
-    const [openDate, setOpenDate] = useState(false)
-    const [dates, setDates] = useState([
+    const [roomList, setRoomList] = useState([])
+    const [oldDates, setOldDates] = useState([
         {
             startDate: new Date(),
             endDate: new Date(),
             key: 'selection'
         }
     ])
+    const [hotelId, setHotelId] = useState("")
     const [hotelRoom, setHotelRoom] = useState()
-    const hotelId = useParams()
-    // const hotelData = axios.get(`${baseUrl}/hotels/room/${hotelId}`)
-    // const token = jwtDecode(sessionStorage.getItem('user'))
-    // const newData = axios.get(`${baseUrl}/hotels/find/${hotelId}`)
+
+    if (sessionStorage.getItem('token')) {
+        var token = jwtDecode(sessionStorage.getItem('token'))
+    }
+
     function disabledDate(current) {
         return current && current < moment().endOf('day');
     }
@@ -46,6 +48,7 @@ const Header = () => {
         const date = new Date(start)
         let dates = []
 
+
         while (date <= end) {
             dates.push(new Date(date).getTime())
             date.setDate(date.getDate() + 1)
@@ -53,21 +56,22 @@ const Header = () => {
         return dates
     }
 
-    const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate)
+
+    useEffect(() => {
+        console.log("range", oldDates)
+    }, [oldDates])
+
+    const alldates = getDatesInRange(oldDates[0], oldDates[1])
     var isTrue = false;
 
     const isAvailable = (roomNumber) => {
         const isFound = roomNumber.unavailableDate.some((date) => {
             date.forEach(element => {
-
                 const newDate = new Date(element).getTime()
                 if (alldates.includes(newDate)) {
                     isTrue = alldates.includes(newDate)
-                    return false
                 }
-
             });
-
             return isTrue
         }
         );
@@ -85,20 +89,17 @@ const Header = () => {
 
     useEffect(() => {
         if (destination === " ") {
-            console.log("in dest")
             navigate('*')
         }
     })
 
     const searchHandler = (e) => {
-        console.log("in search")
         e.preventDefault()
         axios
             .get(`${baseUrl}/hotels?city=${destination}`)
             .then((res) => {
-                console.log("city hotel details : ", res.data)
                 setData(res.data)
-                console.log(data)
+                setHotelId(res.data._id)
             })
             .catch((err) => {
                 console.log("Error : ", err)
@@ -110,43 +111,53 @@ const Header = () => {
     }
 
     const reserveHandler = async () => {
-        try {
-            console.log("roomName", data)
-            // await axios.post(`${baseUrl}/room/reserve/bookings`, { userName: token.name, hotelName: newData.data.name, city: newData.data.city })
-            await Promise.all(selectedRooms.map(roomId => {
-                const res = axios.put(`${baseUrl}/room/availability/${roomId}`, { dates: alldates },).then(res => {
+        await axios.get(`${baseUrl}/hotels/find/${hotelId}`)
+            .then(async (res) => {
+                await axios.post(`${baseUrl}/room/reserve/bookings`, { userName: token.name, hotelName: res.data.name, city: res.data.city })
+                    .then(async (res) => {
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log("ERROR : ", err)
+                    })
+            })
+            .catch(err => {
+                console.log("eRRor", err)
+            })
+        await Promise.all(selectedRooms.map(roomId => {
+            const res = axios.put(`${baseUrl}/room/availability/${roomId}`, { dates: alldates },)
+                .then((res) => {
+                    console.log("res", res)
                     return res.data
                 })
-                    .catch(err => {
-                        console.log("error", err)
-                    })
-            }));
-            setOpen(false)
-            alert("Rooms reserved for you!")
-            navigate("/")
-        } catch (err) {
-        }
+                .catch(err => {
+                    console.log("eRRor", err)
+                })
+        }));
+        alert("Rooms reserved!")
+        navigate("/")
+
     }
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = async (data) => {
+        setHotelId(data)
         const hotelData = await axios
-            .get(`${baseUrl}/hotels/room/${data.Hotel_ID}`)
+            .get(`${baseUrl}/hotels/room/${data}`)
             .then((res) => {
-                console.log("AXIOS : ", res.data)
+                setRoomList(res.data)
             })
             .catch((err) => {
                 console.log("Error : ", err)
             })
-        // console.log("AXIOS : ", hotelData)
-        // setIsModalOpen(true);
-        console.log("DATA : ", data)
+
+        roomList.length !== 0 && setIsModalOpen(true)
     };
 
     useEffect(() => {
-        console.log("data", data)
-    }, [data])
+        console.log("roomList", roomList)
+    }, [roomList])
 
     useEffect(() => {
         const dataSource = data.map((e) => {
@@ -160,8 +171,6 @@ const Header = () => {
             })
         })
         setHeader(dataSource)
-
-        console.log("source data", dataSource)
     }, [data])
 
     const column = [
@@ -195,33 +204,39 @@ const Header = () => {
             key: 'action',
             render: (_, data) => (
                 <>
-                    <Button type="primary" onClick={() => showModal(data)}> Book Now</Button>
-                    <Modal title="Basic Modal" open={isModalOpen} >
-                        <p>Some contents...</p>
-                        <p>Some contents...</p>
-                        <p>Some contents...</p>
-                        {/* <span>Select your rooms:</span>
-                {hotelData.map(item => (
-                    <div className="reserveItem">
-                        <div className="itemInfo">
-                            <div className="reserveTitle">{item.title}</div>
-                            <div className="reserveDescription">{item.desc}</div>
-                            <div className="reservePeople">
-                                Max people: <b>{item.maxPeople}</b></div>
-                        </div>
-                        <div className="selectRooms">
-                            {item.roomNumbers.map(roomNumber => (
-                                <div className="room">
-                                    <label>{roomNumber.number}</label>
-                                    <input type="checkbox" value={roomNumber._id} onChange={selectHandler}
-                                        disabled={!isAvailable(roomNumber)} 
-                                    />
+                    <Tooltip title="The price will vary based on selected rooms">
+                        <AppstoreFilled />
+                    </Tooltip>
+                    <Button onClick={() => showModal(data.Hotel_ID)}> Book Now</Button>
+                    <Modal title="Basic Modal" open={isModalOpen} onCancel={() => setIsModalOpen(false)} >
+                        <span>Select your rooms:</span>
+                        {roomList && roomList.map(item => (
+
+                            <div className="reserveItem">
+                                <div className="itemInfo">
+                                    <div>{item.title}</div>
+                                    <div>{item.desc}</div>
+                                    <div>
+                                        Max people: <b>{item.maxPeople}</b></div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                ))} */}
-                        <Button onClick={reserveHandler}>Reserve Now!</Button>
+                                <div className="selectRooms">
+                                    {item.roomNumbers && item.roomNumbers.map(roomNumber => (
+                                        <div className="room">
+                                            <label>{roomNumber.number}</label>
+                                            <input type="checkbox" value={roomNumber._id} onChange={selectHandler}
+                                                disabled={!isAvailable(roomNumber)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                        ))
+                        }
+                        <Button
+                            onClick={() => reserveHandler()}
+                        >Reserve Now!</Button>
+
                     </Modal>
                 </>
             )
@@ -230,12 +245,11 @@ const Header = () => {
 
     return (
         <div className="header">
-            {console.log(data)}
             <div className='headerContainer'>
                 <div className='headerItem'>
                     <Space className='date' direction="vertical" size={12}>
                         <RangePicker
-                            onChange={item => setDates([item.selection])}
+                            onChange={item => setOldDates([item[0]._d, item[1]._d])}
                             disabledDate={disabledDate} />
                     </Space>
                 </div>
@@ -248,39 +262,11 @@ const Header = () => {
                     <button className='headerButton' onClick={(e) => searchHandler(e)}>Search</button>
                 </div>
             </div>
-            <div className="table">
-                <table>
-                    <th>
-                        <tr><b>Hotel Name</b></tr>
-                        <tr><b>Address</b></tr>
-                        <tr><b>Distance</b></tr>
-                        <tr><b>Rating</b></tr>
-                        <tr><b>Cheapest Price</b></tr>
-                    </th>
-                    <tbody>
-                        {data.length && data.map(e => {
-                            return (
-                                <tr key={e._id}>
-                                    <td><b>{e.name}</b></td>
-                                    <td><b>{e.address}</b></td>
-                                    <td><b>{e.distance}</b></td>
-                                    <td><b>{e.rating}</b></td>
-                                    <td><b>{e.cheapestPrice}</b></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-
-                {
-                    column ? header && <Table columns={column} dataSource={header} /> : false
-                }
-            </div>
+            {
+                column ? header && <Table columns={column} dataSource={header} /> : false
+            }
         </div>
-
-
-
     )
 }
 
-export default Header
+export default Header;

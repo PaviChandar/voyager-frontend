@@ -1,7 +1,7 @@
 import React from "react";
 import "../assets/hotelManagement.css"
 import { useNavigate } from "react-router";
-import { baseUrl } from "../shared/Constants";
+import { baseUrl } from "../shared/utils/Constants";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
@@ -22,25 +22,23 @@ const HotelManagement = () => {
         navigate('/admin/hotel/create')
     }
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         dispatch(deleteHotel(id))
-        setSuccess(true)
-        alert("Hotel deleted successfully!")
+        if (window.confirm("Are you sure to delete hotel?")) {
+            setSuccess(true)
+            alert("Hotel deleted successfully!")
+        }
     }
 
     const handleUpdate = (id) => {
         navigate(`/admin/hotel/update/${id}`)
     }
 
-    // dispatch(getAllHotels())
-
     useEffect(() => {
-        // dispatch(getAllHotels())
         axios
             .get(`${baseUrl}/hotels/`)
             .then((data) => {
                 setHotel(() => (data.data))
-                console.log("HOTEL DATA : ", data)
             })
     }, [])
 
@@ -62,16 +60,9 @@ const HotelManagement = () => {
             })
         })
         setHotelSource(dataSource)
-
-        console.log("source data", dataSource)
     }, [hotel])
 
     const column = [
-        // {
-        //     title: 'Hotel ID',
-        //     dataIndex: 'Hotel ID',
-        //     key: 'Hotel ID',
-        // },
         {
             title: 'Hotel Name',
             dataIndex: 'Hotel Name',
@@ -98,7 +89,7 @@ const HotelManagement = () => {
             render: (_, data) => (
                 <Space size="middle">
                     <button onClick={() => handleUpdate(data.Hotel_ID)} className="action">Update</button>
-                    <button onClick={() => handleDelete(data._id)} className="action" >Delete</button>
+                    <button onClick={() => handleDelete(data.Hotel_ID)} className="action" >Delete</button>
                 </Space>
             )
         },
