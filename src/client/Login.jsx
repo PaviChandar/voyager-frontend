@@ -23,12 +23,12 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if(sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             if (sessionStorage.getItem('role') === 'true') {
                 navigate('/admin')
             } else {
                 navigate('/')
-            } 
+            }
         }
     })
 
@@ -37,7 +37,6 @@ const Login = () => {
         dispatch({ type: "LOGIN_START" })
         try {
             dispatch(loginUser(credentials))
-            
         } catch (err) {
             console.log("error", err)
         }

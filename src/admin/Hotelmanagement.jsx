@@ -26,7 +26,6 @@ const HotelManagement = () => {
         dispatch(deleteHotel(id))
         if (window.confirm("Are you sure to delete hotel?")) {
             setSuccess(true)
-            alert("Hotel deleted successfully!")
         }
     }
 

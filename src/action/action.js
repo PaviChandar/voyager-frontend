@@ -46,11 +46,11 @@ const removeRoom = (id, hotelId) => ({
     payload: id, hotelId
 })
 
-const upgradeHotel = (id) => ({
+const upgradeHotel = () => ({
     type: types.UPDATE_HOTEL,
 })
 
-const upgradeRoom = (id) => ({
+const upgradeRoom = () => ({
     type: types.UPDATE_ROOM,
 })
 

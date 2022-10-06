@@ -87,8 +87,8 @@ const UpdateHotel = () => {
     return (
         <div>
             <h1>Update Hotel</h1>
-            <div className="hotelHeader">
-                <div className="hotelContainer">
+            <div className="updateHeader">
+                <div className="updateContainer">
                     <input type="text" name="name" value={credentials.name} onChange={(e) => handleChange(e)} placeholder="hotel name" />
                     <span className="error">{formError.name}</span>
                     <label>Type</label>
@@ -126,8 +126,10 @@ const UpdateHotel = () => {
                         <option value={false}>No</option>
                         <option value={true}>Yes</option>
                     </select>
-                    <button className="update" onClick={handleUpdate}>Update</button>
-                    <button className="backButton" onClick={() => navigate(-1)}>Go Back</button>
+                   <div>
+                   <button className="updateHotel" onClick={handleUpdate}>Update</button>
+                    <button className="updateBack" onClick={() => navigate(-1)}>Go Back</button>
+                   </div>
                 </div>
             </div>
 

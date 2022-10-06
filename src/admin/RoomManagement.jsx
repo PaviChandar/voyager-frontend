@@ -14,6 +14,7 @@ const RoomManagement = () => {
     const navigate = useNavigate(false)
     const [success, setSuccess] = useState()
     const [room, setRoom] = useState([])
+    const [hotel, setHotel] = useState()
     const dispatch = useDispatch()
     const [dataSour, setdataSour] = useState([])
 
@@ -21,12 +22,24 @@ const RoomManagement = () => {
         navigate('/admin/room/create')
     }
 
-    const deleteHandler = async (id, hotelId) => {
-        dispatch(deleteRoom(id, hotelId))
+    const deleteHandler = async (id, hotelid) => {
+        dispatch(deleteRoom(id,hotelid))
+        if (window.confirm("Are you sure to delete room?")) {
+            setSuccess(true)
+        }
     }
+
     useEffect(() => {
         axios
-            .get(`${baseUrl}/room/`)
+            .get(`${baseUrl}/hotels`)
+            .then((datas) => {
+                setHotel(() => (datas.data))
+            })
+    }, [])
+
+    useEffect(() => {
+        axios
+            .get(`${baseUrl}/room`)
             .then((data) => {
                 setRoom(() => (data.data))
             })
@@ -71,10 +84,10 @@ const RoomManagement = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (_, data) => (
+            render: (_, data, datas) => (
                 <Space size="middle">
-                    <button className="action" onClick={() => navigate(`/admin/room/update/${data.Room_ID}`)}>Update</button>
-                    <button onClick={() => deleteHandler(data.Room_ID, data.hotelId)} className="action">Delete</button>
+                    <button onClick={() => navigate(`/admin/room/update/${data.Room_ID}`)} className="action">Update</button>
+                    <button onClick={() => deleteHandler(data.Room_ID, datas._hotelid)} className="action">Delete</button>
                 </Space>
             )
         },

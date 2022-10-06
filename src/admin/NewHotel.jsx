@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerHotel } from "../action/action";
 import { useEffect } from "react";
-import ErrorList from "antd/lib/form/ErrorList";
 
 const NewHotel = () => {
     const navigate = useNavigate()
@@ -115,8 +114,10 @@ const NewHotel = () => {
                     <option value={false}>No</option>
                     <option value={true}>Yes</option>
                 </select>
-                <button onClick={(e) => createHandler(e)} className="newHotelButton">Create</button>
-                <button className="newHotelButton" onClick={() => navigate('/admin')}>Go Back</button>
+                <div>
+                    <button onClick={(e) => createHandler(e)} className="newHotelButton">Create</button>
+                    <button className="backHotelButton" onClick={() => navigate('/admin')}>Go Back</button>
+                </div>
             </div>
         </div>
     )

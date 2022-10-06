@@ -27,7 +27,7 @@ h1 {
 .registerItem {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 5px;
     padding: 2px;
     position: relative;
     flex-direction: column;

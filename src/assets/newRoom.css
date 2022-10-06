@@ -3,10 +3,12 @@ h1{
 }
 
 .newRoomItems{
-    align-items: center;
     gap: 20px;
     display: flex;
     flex-direction: column;
+    width: 210px;
+    text-align: center;
+    margin-left: 800px;
 }
 
 input[type="textarea"]{
@@ -17,7 +19,8 @@ input[type="textarea"]{
 .createButton{
     background-color: green;
     color: white;
-    margin-right: 10px;
+    margin-right: 8px;
+    margin-left: 15px;
     padding: 10px 12px;
     border: none;
     border-radius: 5px;

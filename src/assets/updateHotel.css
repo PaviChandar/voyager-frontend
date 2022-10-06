@@ -1,22 +1,40 @@
-.update{
+.updateContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 210px;
+    text-align: center;
+    margin-left: 800px;
+}
+
+.updateHotel {
     background-color: green;
     color: white;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 50px;
-    margin-right: 50px;
-    /* display: inline-block; */
+    margin-left: 30px;
+    margin-right: 10px;
+    display: inline-block;
 }
 
-input[type="text"], select{
+.updateBack {
+    background-color: green;
+    color: white;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="text"],
+select {
     width: 250px;
     height: 50px
 }
 
-input[type="number"]{
+input[type="number"] {
     width: 250px;
     height: 50px
 }
-

@@ -116,7 +116,7 @@ const Header = () => {
                     })
             })
             .catch(err => {
-                console.log("eRRor", err)
+                console.log("error", err)
             })
         await Promise.all(selectedRooms.map(roomId => {
             const res = axios.put(`${baseUrl}/room/availability/${roomId}`, { dates: alldates },)
@@ -124,7 +124,7 @@ const Header = () => {
                     return res.data
                 })
                 .catch(err => {
-                    console.log("eRRor", err)
+                    console.log("error", err)
                 })
         }));
         alert("Rooms reserved!")
@@ -139,7 +139,6 @@ const Header = () => {
         const hotelData = await axios
             .get(`${baseUrl}/hotels/room/${data}`)
             .then((res) => {
-                console.log("response : ", res.data)
                 setRoomList(res.data)
             })
             .catch((err) => {

@@ -44,7 +44,7 @@ const Router = () => {
                 <Route path='/admin/hotel/update/:id' element={<UpdateHotel />} />
                 <Route path='/admin/room/update/:id' element={<UpdateRoom />} />
 
-                <Route path="*" element={<ErrorNotFound />} />
+                <Route path='*' element={<ErrorNotFound />} />
             </Routes>
 
         </div>

@@ -1,13 +1,22 @@
 .update{
     background-color: green;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 45px;
-    margin-right: 50px;
-    /* display: inline-block; */
+    margin-left: 15px;
+    margin-right: 8px;
+    display: inline-block;
+}
+
+.backButton{
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 input[type="text"], select{
